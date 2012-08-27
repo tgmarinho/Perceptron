@@ -31,7 +31,9 @@ public class PerceptronRNA {
 	}
 
 	public static void iniciliarRede(){
-
+		//Ηη	-> Etá
+		double coeficienteAprendizgem = 0.2;
+		
 		int[] peso = new int[4];
 		int[][] entrada = new int[4][8];
 
@@ -70,7 +72,7 @@ public class PerceptronRNA {
 		entrada[2][6] = 0;
 		entrada[2][7] = 1;
 
-		//entrada d
+		//saída d, para cada entrada0 até 7, onde x1*w1+x2+w2+x3+w3 = d
 		entrada[3][0] = 0;
 		entrada[3][1] = 0;
 		entrada[3][2] = 0;
