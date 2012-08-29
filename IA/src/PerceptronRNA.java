@@ -23,6 +23,8 @@ import java.util.Map;
 
 public class PerceptronRNA {
 
+	static double coeficienteAprendizgem = 0.2;
+
 	public static void main(String arg[]) {
 		
 		// Inicializar a rede e o treinamento
@@ -32,10 +34,9 @@ public class PerceptronRNA {
 
 	public static void iniciliarRede(){
 		//Ηη	-> Etá
-		double coeficienteAprendizgem = 0.2;
 		
-		int[] peso = new int[4];
-		int[][] entrada = new int[4][8];
+		double[] peso = new double[4];
+		double[][] entrada = new double[4][8];
 
 		peso[0] =  1; // W1
 		peso[1] = -1; // W2
@@ -82,7 +83,7 @@ public class PerceptronRNA {
 		entrada[3][6] = 1;
 		entrada[3][7] = 1;
 
-		Map<String, Integer> soma = new HashMap<String, Integer>();
+		Map<String, Double> soma = new HashMap<String, Double>();
 
 		//Inicializar o Treinamento
 		elementoProcessador(entrada, peso, soma);
@@ -91,7 +92,7 @@ public class PerceptronRNA {
 
 	}
 
-	public static void elementoProcessador(int entrada[][], int peso[], Map<String, Integer> soma) {
+	public static void elementoProcessador(double entrada[][], double peso[], Map<String, Double> soma) {
 
 		for(int j = 0; j < entrada[0].length; j++) {
 
@@ -99,6 +100,12 @@ public class PerceptronRNA {
 
 			case 0: 
 				soma.put("saida0", peso[0] * entrada[0][j] + peso[1] * entrada[1][j] + peso[2] * entrada[2][j]);
+				if(soma.get("saida0") == entrada[3][0]){
+					System.out.println("blz entrada 0 - ok");
+				} else { 
+					atualizarPeso(entrada[0][j], peso, soma);
+				}
+				
 				break;
 
 			case 1: 
@@ -154,9 +161,9 @@ public class PerceptronRNA {
 	}
 
 
-	public static void atualizarPeso(int entrada[][], int peso[], Map<String, Integer> soma) {
+	public static void atualizarPeso(double entradaAtual, double pesoAtual, Map<String, Double> somaAtual) {
 
-		
+		double novoPeso = pesoAtual + coeficienteAprendizgem * (entradaAtual - somaAtual.get("soma0")) * entradaAtual;
 
 		// depois de atualizar o peso executo o processador
 		elementoProcessador(entrada, peso, soma);
